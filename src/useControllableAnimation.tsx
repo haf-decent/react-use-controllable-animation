@@ -1,4 +1,4 @@
-import { MutableRefObject, useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 import easingFunctions from "./easings";
 
@@ -21,9 +21,9 @@ export default function useControllableAnimation({
 	onLoop?: (loop: number) => void,
 	onFinish?: () => void
 }) {
-	const startTime = useRef() as MutableRefObject<(undefined | number)>;
+	const startTime = useRef<undefined | number>();
 	const progress = useRef(0);
-	const active = useRef(autoplay);
+	const active = useRef(false);
 	const loop = useRef(0);
 
 	const propsRef = useRef({
@@ -59,11 +59,11 @@ export default function useControllableAnimation({
 		if (!startTime.current) {
 			startTime.current = timestamp - progress.current * current.duration;
 		}
-		progress.current = (timestamp - startTime.current) / current.duration;
+		progress.current = Math.max(0, Math.min((timestamp - startTime.current) / current.duration, 1));
 		const p = current.easingFunction(
 			current.alternate && loop.current % 2
-				? Math.max(0, 1 - progress.current)
-				: Math.min(1, progress.current)
+				? 1 - progress.current
+				: progress.current
 		);
 
 		current.onProgress(p, progress.current, loop.current);
@@ -97,7 +97,8 @@ export default function useControllableAnimation({
 		startTime.current = undefined;
 		progress.current = 0;
 		loop.current = 0;
-	}, []);
+		onProgress(0, 0, 0);
+	}, [ onProgress ]);
 
 	const stop = useCallback(() => {
 		active.current = false;
