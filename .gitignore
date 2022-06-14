@@ -12,6 +12,7 @@
 /build
 /example/node_modules
 /example/build
+/example/.yalc
 
 # misc
 .DS_Store

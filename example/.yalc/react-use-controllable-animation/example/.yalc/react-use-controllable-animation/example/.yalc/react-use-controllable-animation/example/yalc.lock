@@ -1,9 +1,0 @@
-{
-  "version": "v1",
-  "packages": {
-    "react-use-controllable-animation": {
-      "signature": "18d57f7011aef223816b0f9799590e65",
-      "file": true
-    }
-  }
-}
