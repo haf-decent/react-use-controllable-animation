@@ -10,7 +10,11 @@
 		"build-cjs": "tsc --module commonjs --outDir lib/cjs",
 		"build-esm": "tsc"
   },
-  "author": "",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/haf-decent/react-use-controllable-animation"
+	},
+  "author": "haf-decent",
   "license": "MIT",
   "devDependencies": {
 		"@types/react": "^18.0.12",
@@ -22,5 +26,9 @@
 	"peerDependencies": {
     "react": "^18.1.0",
     "react-dom": "^18.1.0"
-	}
+	},
+	"bugs": {
+    "url": "https://github.com/haf-decent/react-use-controllable-animation/issues"
+  },
+  "homepage": "https://github.com/haf-decent/react-use-controllable-animation#readme"
 }
