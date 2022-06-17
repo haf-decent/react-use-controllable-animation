@@ -30,5 +30,12 @@
   "bugs": {
     "url": "https://github.com/haf-decent/react-use-controllable-animation/issues"
   },
-  "homepage": "https://github.com/haf-decent/react-use-controllable-animation#readme"
+  "homepage": "https://github.com/haf-decent/react-use-controllable-animation#readme",
+  "keywords": [
+    "react",
+    "hook",
+    "animation",
+    "animate",
+    "controllable"
+	]
 }
