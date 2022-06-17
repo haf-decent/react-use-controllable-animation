@@ -122,9 +122,11 @@ export const easingFunctions = {
 	
 		return 0.984375 + n * (val - 2.625 / d) * (val - 2.625 / d);
 	},
-	easeInOutBounce: (val: number) => val < 0.5 ?
-			(1 - easingFunctions.easeOutBounce(1 - 2 * val)) / 2:
-			(1 + easingFunctions.easeOutBounce(2 * val - 1)) / 2
+	easeInOutBounce: (val: number) => (
+		val < 0.5
+			? (1 - easingFunctions.easeOutBounce(1 - 2 * val)) / 2
+			: (1 + easingFunctions.easeOutBounce(2 * val - 1)) / 2
+	)
 }
 
 export default easingFunctions

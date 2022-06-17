@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import useControllableAnimation, { easingFunctions } from "react-use-controllable-animation";
 
+import useScreenBreakpoint from "./useScreenBreakpoint";
+
 import playIcon from "./play.svg";
 import pauseIcon from "./pause.svg";
 import skipIcon from "./skip.svg";
@@ -56,7 +58,7 @@ const Container = styled.div`
 	}
 `;
 
-const Footer = styled.div<{ darkMode: boolean }>`
+const Footer = styled.div<{ darkMode: boolean, centered: boolean }>`
 	position: fixed;
 	bottom: 0px;
 	left: 0px;
@@ -64,7 +66,7 @@ const Footer = styled.div<{ darkMode: boolean }>`
 	height: 80px;
 	padding: 20px;
 	display: flex;
-	justify-content: space-between;
+	justify-content: ${({ centered }) => centered ? "center": "space-between"};
 	align-items: center;
 	background-color: white;
 	box-shadow: 0 7px 17px rgba(0,0,0,0.4);
@@ -89,12 +91,21 @@ const Footer = styled.div<{ darkMode: boolean }>`
 		}
 	`}
 `;
-const FooterSection = styled.div`
+const FooterSection = styled.div<{ float?: boolean }>`
 	width: 33%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 
+	${({ float }) => float && `
+		position: fixed;
+		left: 0px;
+		right: 0px;
+		bottom: 80px;
+		width: auto;
+		height: 60px;
+	`}
+	
 	& > *:not(:first-of-type) {
 		margin-left: 15px;
 	}
@@ -156,6 +167,9 @@ const panelWidth = 300;
 const panelMargin = 40;
 
 export default function App() {
+	const widthIndex = useScreenBreakpoint([ 600 ]);
+	const isSmallScreen = widthIndex === 0;
+
 	const panels = useRef(new Array(Object.keys(easingFunctions).length));
 
 	const [ darkMode, setDarkMode ] = useState(window.matchMedia("(prefers-color-scheme: dark)").matches);
@@ -227,10 +241,13 @@ export default function App() {
 				))}
 				<Header
 					title="Animation Easing Curves"
+					isSmall={isSmallScreen}
 					darkMode={darkMode}
 					toggleDarkMode={() => setDarkMode(d => !d)}
 				/>
-				<Footer darkMode={darkMode}>
+				<Footer
+					darkMode={darkMode}
+					centered={isSmallScreen}>
 					<FooterSection>
 						<ControlBox>
 							<label>Dur: </label>
@@ -269,7 +286,7 @@ export default function App() {
 							/>
 						</ControlBox>
 					</FooterSection>
-					<FooterSection>
+					<FooterSection float={isSmallScreen}>
 						<Button
 							darkMode={darkMode}
 							onClick={() => setIsPlaying(p => !p)}>
@@ -293,7 +310,9 @@ export default function App() {
 							<div></div>
 						</Button>
 					</FooterSection>
-					<FooterSection>Loops: {loops}</FooterSection>
+					{!isSmallScreen && (
+						<FooterSection>Loops: {loops}</FooterSection>
+					)}
 				</Footer>
 			</Container>
 		</>

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const Container = styled.div<{ darkMode: boolean }>`
+const Container = styled.div<{ darkMode: boolean, isSmall: boolean }>`
 	position: fixed;
 	top: 0px;
 	left: 0px;
@@ -10,15 +10,21 @@ const Container = styled.div<{ darkMode: boolean }>`
 	justify-content: center;
 	align-items: center;
 	height: 80px;
-	padding: 20px;
+	padding: 30px;
 	font-size: 24px;
 	font-weight: 700;
 	background-color: white;
 	box-shadow: 0 7px 17px rgba(0,0,0,0.2);
+
 	${({ darkMode }) => darkMode && `
 		background-color: #202020;
 		color: white;
 		box-shadow: 0 7px 17px rgba(0,0,0,0.4);
+	`}
+
+	${({ isSmall }) => isSmall && `
+		font-size: 18px;
+		justify-content: space-between;
 	`}
 `;
 
@@ -65,15 +71,19 @@ const Toggle = styled.div<{ isOn: boolean }>`
 export default function Header({
 	darkMode,
 	toggleDarkMode,
-	title
+	title,
+	isSmall
 }: {
 	darkMode: boolean,
 	toggleDarkMode: () => void,
-	title: string
+	title: string,
+	isSmall: boolean
 }) {
 	return (
-		<Container darkMode={darkMode}>
-			{title}
+		<Container
+			darkMode={darkMode}
+			isSmall={isSmall}>
+			<span>{title}</span>
 			<ToggleContainer onClick={toggleDarkMode}>
 				<Toggle isOn={darkMode}/>
 			</ToggleContainer>
